@@ -1,8 +1,5 @@
+// src/main.ts
 import './style.css'
+import { App } from './todos/app'
 
-
-document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
-
-    <h1>Hola Mundo</h1>
-
-`
+App('#app');

@@ -5,6 +5,7 @@ import { renderTodos } from './use-cases';
 
 const ElementIds = {
     TodosList: '.todo-list',
+    NewTodoInput: '#new-todo-input',
 }
 
 export const App = (elementId: string) => {
@@ -30,4 +31,23 @@ export const App = (elementId: string) => {
         displayTodos();
     })();
 
+    // Referencias HTML
+    const newDescriptionInput = document.querySelector(ElementIds.NewTodoInput);
+
+    // Listeners
+    newDescriptionInput?.addEventListener('keyup', (event) => {
+        const keyboardEvent = event as KeyboardEvent;
+
+        if (keyboardEvent.key !== 'Enter') return;
+
+        const target = keyboardEvent.target as HTMLInputElement;
+        const description = target.value.trim();
+
+        if (target.value.trim().length === 0) return;
+
+        todoStore.addTodo(description);
+        displayTodos();
+
+        target.value = '';
+    });
 }

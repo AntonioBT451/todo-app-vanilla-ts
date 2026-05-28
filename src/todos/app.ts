@@ -33,6 +33,7 @@ export const App = (elementId: string) => {
 
     // Referencias HTML
     const newDescriptionInput = document.querySelector(ElementIds.NewTodoInput);
+    const todoListUl = document.querySelector(ElementIds.TodosList);
 
     // Listeners
     newDescriptionInput?.addEventListener('keyup', (event) => {
@@ -49,5 +50,37 @@ export const App = (elementId: string) => {
         displayTodos();
 
         target.value = '';
+    });
+
+    todoListUl?.addEventListener('click', (event) => {
+        const target = event.target as HTMLElement;
+
+        if (!target) return;
+
+        const todoElement = target.closest('[data-id]');
+        const elementId = todoElement?.getAttribute('data-id');
+
+        if (elementId) {
+            todoStore.toggleTodo(elementId);
+            displayTodos();
+        }
+    });
+
+    todoListUl?.addEventListener('click', (event) => {
+        const target = event.target as HTMLElement;
+
+        if (!target) return;
+
+        const destroyButton = target.closest('.destroy');
+
+        if (!destroyButton) return;
+
+        const todoElement = destroyButton.closest('[data-id]');
+        const elementId = todoElement?.getAttribute('data-id');
+
+        if (elementId) {
+            todoStore.deleteTodo(elementId);
+            displayTodos();
+        }
     });
 }

@@ -1,6 +1,6 @@
 import { Todo } from "../todos/models/todo.model";
 
-const Filters = {
+export const Filters = {
     All: 'All',
     Complete: 'Complete',
     Pending: 'Pending',
@@ -86,7 +86,7 @@ const getTodos = (filter: string = Filters.All): Todo[] => {
 }
 
 
-const setFilters = (newFilter: string = Filters.All) => {
+const setFilter = (newFilter: string = Filters.All) => {
     state.filters = newFilter;
 }
 
@@ -102,6 +102,6 @@ export default {
     getTodos,
     initStore,
     loadStore,
-    setFilters,
+    setFilter,
     toggleTodo,
 }

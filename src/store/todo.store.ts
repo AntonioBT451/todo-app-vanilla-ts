@@ -16,19 +16,34 @@ const state = {
 }
 
 const initStore = () => {
-    console.log('InitStore');
-    console.log(state);
+    console.log('Init Store');
+    loadStore();
 }
 
 const loadStore = () => {
-    throw new Error('Not implemented');
+    const storedState = localStorage.getItem('state');
+
+    if (!storedState) return;
+
+    const { todos = [], filters = Filters.All } = JSON.parse(storedState);
+
+    state.todos = todos;
+    state.filters = filters;
+
 }
+
+const saveStateToLocalStorage = () => {
+    localStorage.setItem('state', JSON.stringify(state));
+}
+
 
 const addTodo = (description: string) => {
     if (description.length === 0) throw new Error('Description is required');
 
     const newTodo = new Todo(description);
     state.todos.push(newTodo);
+
+    saveStateToLocalStorage();
 }
 
 const toggleTodo = (todoId: string) => {
@@ -38,14 +53,20 @@ const toggleTodo = (todoId: string) => {
         }
         return todo;
     });
+
+    saveStateToLocalStorage();
 }
 
 const deleteTodo = (todoId: string) => {
     state.todos = state.todos.filter(todo => todo.id !== todoId);
+
+    saveStateToLocalStorage();
 }
 
 const deletedCompleted = () => {
-    state.todos = state.todos.filter(todo => todo.done);
+    state.todos = state.todos.filter(todo => !todo.done);
+
+    saveStateToLocalStorage();
 }
 
 const getTodos = (filter: string = Filters.All): Todo[] => {

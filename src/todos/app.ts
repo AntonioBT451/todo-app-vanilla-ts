@@ -24,7 +24,6 @@ export const App = (elementId: string) => {
         renderPending(ElementIds.PendingCountLabel);
     }
 
-
     (() => {
         const app = document.createElement('div');
         app.innerHTML = html;
